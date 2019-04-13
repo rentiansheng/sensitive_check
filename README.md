@@ -56,6 +56,12 @@ ignore_license  不检查文件中是否带有license。默认是检查必java,p
 
 ## 加入白名单后，白名单中其他位置出现非法内容，也有可能被忽略请注意
 
+白名单只要设置需要忽略文件一部分或者全部路径即可。
+
+**主机只要包含配置白名单中的一项。即将被忽略掉, 设置忽略 aa, 只要文件路径或文件名中包含aa就会被忽略**
+
+
+
 ### 域名或者企业用户名的白名单配置
  
  ```
@@ -84,4 +90,101 @@ ignore_license  不检查文件中是否带有license。默认是检查必java,p
 ```
 
 
+
+
+
+# 使用示例
+
+#### 安装
+
+``` sh
+
+
+➜  sensitive_check git:(master) ✗ sh ./install.sh /tmp/sensitive_check    
+
+upgrade template start
+Already up to date.
+upgrade template end
+
+set git project directoy path: /tmp/sensitive_check
+
+```
+
+### 出现企业用户名或者内部域名
+
+
+
+##### 配置企业用户名和域名敏感信息
+
+``` sh
+➜  sensitive_check git:(master) ✗ cat .git/hooks/module/name
+ireage\.com|rentiansheng
+
+``` 
+
+##### 出现敏感信息提示
+
+``` sh
+
+➜  sensitive_check git:(master) ✗ git commit -m "test" -a
+scan the source count:1
+checking the name
+  invalid:test.go:7:ireage.com
+  invalid:test.go:8:rentiansheng
+
+```
+
+##### 出现公司IP 提示
+
+``` sh
+➜  sensitive_check git:(master) ✗ git commit -m "test" -a
+scan the source count:1
+checking the name
+  OK
+checking the ip
+  invalid:test.go:8:127.0.0.2
+
+```
+
+##### commit 消息格式错误提示
+
+```
+
+➜  sensitive_check git:(master) ✗ git commit -m "test" -a
+scan the source count:1
+cat: '/tmp/sensitive_check/.git/hooks/module/*white_name': No such file or directory
+checking the name
+  OK
+checking the ip
+  OK
+checking the license
+  invalid: not license, file name:test.go
+
+
+➜  sensitive_check git:(master) ✗ git commit -m "fix:test" -a 
+scan the source count:1
+checking the name
+  OK
+checking the ip
+  OK
+checking the license
+  invalid: not license, file name:test.go
+
+```
+
+##### 没有 license 提示
+
+``` sh
+➜  sensitive_check git:(master) ✗ git commit -m "fix:test issue #1" -a
+scan the source count:1
+checking the name
+  OK
+checking the ip
+  OK
+checking the license
+  invalid: not license, file name:test.go
+
+
+
+```
 
