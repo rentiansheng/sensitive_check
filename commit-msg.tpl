@@ -17,7 +17,7 @@ fi
 check_msg_type=$(grep -aEinor -f  "${base_dir}/.git/hooks/module/commit_type"  $msg_file )
 if [ -z "${check_msg_type}" ];then
     echo "  invalid: miss type. "$(cat $msg_file)
-    echo "  example: type:messsge issueFlag #id1 #id2"
+    echo "  example: type: messsge issueFlag #id1 #id2"
     echo "  type range: feature|fix|docs|style|refactor|test|chore|depend|lib|define"
     echo "  detail:  http://www.ireage.com/git/2018/12/07/git_commit_format.html"
     exit 1
