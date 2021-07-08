@@ -32,7 +32,7 @@ echo "checking the commit message issue  "
 check_msg_type=$(grep -aEinor   " ${issueFlag}(([ ]+#[0-9]+)+)$"  $msg_file )
 if [ -z "${check_msg_type}" ];then
     echo "  invalid: miss issue flag. "$(cat $msg_file)
-    echo "  example: type:messsge issueFlag #id1 #id2"
+    echo "  example: type: messsge issueFlag #id1 #id2"
     echo "  issueFlag: "$issueFlag
     echo "  detail:  http://www.ireage.com/git/2018/12/07/git_commit_format.html"
     exit 1 
