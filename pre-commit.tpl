@@ -21,6 +21,10 @@ tmp_white_name="${base_dir}/.git/hooks/module/white_name_${timestamp}_tmp"
 cat "${base_dir}"/.git/hooks/module/*white_name>$tmp_white_name
 echo "checking the name"
 for fileName in ${change_files};do
+    if [ ! -f "$fileName" ];then
+        echo "delete file: $fileName"
+        continue 
+    fi
     check_name=$(grep -aEinor -f  "${base_dir}/.git/hooks/module/name"  $fileName)
     if [ -z "${check_name}" ];then
         continue
@@ -31,7 +35,7 @@ for fileName in ${change_files};do
         if [ -z "${check_white_name}" ];then
             continue
         fi 
-        echo "  invalid:"${errLineMsg}
+        echo "  invalid: "${errLineMsg}
         lastErrFileName=${fileName}
     done
 
@@ -52,6 +56,10 @@ cat "${base_dir}"/.git/hooks/module/*white_ips>$tmp_white_ips
 ipRegex="(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"
 echo "checking the ip"
 for fileName in ${change_files};do
+    if [ ! -f "$fileName" ];then
+        echo "delete file: $fileName"
+        continue 
+    fi
     check_ip=$(grep "$ipRegex" -REnoa  $fileName )
     if [ -z "${check_ip}" ];then
         continue
@@ -62,7 +70,7 @@ for fileName in ${change_files};do
         if [ -z "${check_white_ip}" ];then
             continue
         fi 
-        echo "  invalid:"${errLineMsg}
+        echo "  invalid: "${errLineMsg}
         lastErrFileName=${fileName}
     done
     
